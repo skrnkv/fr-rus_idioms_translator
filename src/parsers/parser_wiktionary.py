@@ -25,11 +25,6 @@ def save_progress(data, filename="wiki_backup.json"):
 
     filename : str, default="wiki_backup.json"
         Имя файла, в который будет записан результат.
-
-    Notes
-    -----
-    Файл создаётся или перезаписывается. Используется для резервного
-    сохранения результатов при парсинге.
     """
 
     with open(filename, "w", encoding="utf-8") as f:
