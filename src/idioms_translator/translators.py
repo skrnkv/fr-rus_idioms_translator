@@ -15,22 +15,22 @@ YANDEX_FOLDER_ID = os.getenv("YANDEX_FOLDER_ID")
 
 def translate_yandex(idiom, context="", target_lang="ru", source_lang="fr", retries=5, delay=3):
     """
-    Переводит текст с помощью Yandex Translate API.
+    Переводит текст с помощью Yandex Translate API
 
     Parameters
     ----------
     idiom : str
         Идиома на исходном языке
-    context : str, optional
-        Контекст, в котором встречается идиома, по умолчанию ""
-    target_lang : str, optional
-        Код целевого языка (ISO 639-1), по умолчанию "ru"
-    source_lang : str, optional
-        Код исходного языка (ISO 639-1), по умолчанию "fr"
-    retries : int, optional
-        Количество попыток при ошибке, по умолчанию 5
-    delay : int, optional
-        Задержка между повторными попытками в секундах, по умолчанию 3
+    context : str, default=""
+        Контекст, в котором встречается идиома
+    target_lang : str, default="ru"
+        Код целевого языка
+    source_lang : str, default="fr"
+        Код исходного языка 
+    retries : int, default=5
+        Количество попыток при ошибке
+    delay : int, default=3
+        Задержка между повторными попытками в секундах
 
     Returns
     -------
@@ -84,19 +84,19 @@ def translate_yandex(idiom, context="", target_lang="ru", source_lang="fr", retr
 translator_fr_ru = pipeline("translation", model="Helsinki-NLP/opus-mt-fr-ru")
 def translate_hf(idiom, context=""):
     """
-    Переводит текст с помощью модели HuggingFace (opus-mt-fr-ru).
+    Переводит текст с помощью модели Helsinki-NLP - opus-mt-fr-ru
 
     Parameters
     ----------
     idiom : str
-        Идиома на французском языке.
-    context : str, optional
-        Контекст, в котором встречается идиома, по умолчанию "".
+        Идиома на французском языке
+    context : str, default=""
+        Контекст, в котором встречается идиома
 
     Returns
     -------
     str| 
-        Переведённый текст.
+        Переведённый текст
     """
 
     text_to_translate = f"{idiom}. Context: {context}" if context else idiom
@@ -110,18 +110,18 @@ def translate_hf(idiom, context=""):
 
 def verify_translation(idiom, translation_yandex, translation_hf, context=""):
     """
-    Сравнивает переводы из Yandex и HuggingFace и выбирает лучший с помощью LLM.
+    Сравнивает переводы из Yandex и HuggingFace и выбирает лучший с помощью LLM
 
     Parameters
     ----------
     idiom : str
-        Французская идиома.
+        Французская идиома
     translation_yandex : str
-        Перевод из Yandex Translate.
+        Перевод из Yandex Translate
     translation_hf : str
-        Перевод из HuggingFace модели.
-    context : str, optional
-        Контекст идиомы, по умолчанию "".
+        Перевод из Helsinki
+    context : str, default=""
+        Контекст идиомы
 
     Returns
     -------
@@ -157,32 +157,5 @@ def verify_translation(idiom, translation_yandex, translation_hf, context=""):
                 collected.append(data["response"])
                 
     return "".join(collected).strip()
-
-
-def extract_translations_from_file(input_file: str, output_file: str = None):
-    """
-    Читает jsonl, добавляет поля best_translation и candidates в каждый объект
-    и перезаписывает файл (или пишет в новый, если указан output_file).
-    """
-    cleaned_data = []
-
-    with open(input_file, "r", encoding="utf-8") as f:
-        for line in f:
-            if line.strip():
-                item = json.loads(line.strip())
-                text = item.get("best_translation", "")  
-                candidates = re.findall(r"\"([А-Яа-яЁё\s]+)\"", text)
-                
-                if candidates:
-                    item["best_translation"] = candidates[0].strip()
-                
-                cleaned_data.append(item)
-
-    if output_file is None:
-        output_file = input_file
-
-    with open(output_file, "w", encoding="utf-8") as f:
-        for item in cleaned_data:
-            f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
 

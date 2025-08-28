@@ -1,6 +1,5 @@
 FROM python:3.10-slim
 
-# Устанавливаем системные зависимости
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
@@ -8,17 +7,13 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Копируем зависимости
 COPY requirements.txt .
 
-# Устанавливаем pip и зависимости
 RUN python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir -r requirements.txt
 
-# Копируем код FastAPI
 COPY app.py /app/app.py
 
-# Запуск через python -m uvicorn
 CMD ["python3", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
 
 

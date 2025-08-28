@@ -14,7 +14,7 @@ EMBEDDING_MODEL = SentenceTransformer('all-MiniLM-L6-v2')
 def stage1_translations(backup_files):
 
     """
-    Загружает идиомы, очищает их, строит эмбеддинги и дополняет файл IDIOMS_FILE переводами.
+    Загружает идиомы, очищает их, строит эмбеддинги и дополняет файл переводами
 
     Parameters
     ----------
@@ -45,6 +45,7 @@ def stage1_translations(backup_files):
     max_num = max(numbers) if numbers else 0
 
     def process_idiom(idx: int, item: dict, emb):
+
 
         new_num = max_num + idx
         new_id = f"fr{new_num:03d}"
@@ -90,7 +91,7 @@ def stage1_translations(backup_files):
 def stage2_verify_translations_async(batch_size=50, max_workers=5):
     
     """
-    Асинхронно проверяет переводы для идиом с помощью LLM и обновляет best_translation.
+    Асинхронно проверяет переводы для идиом с помощью LLM и обновляет best_translation
 
     Parameters
     ----------
@@ -152,4 +153,5 @@ def stage2_verify_translations_async(batch_size=50, max_workers=5):
 
 if __name__ == "__main__":
 
+    stage1_translations()
     stage2_verify_translations_async()

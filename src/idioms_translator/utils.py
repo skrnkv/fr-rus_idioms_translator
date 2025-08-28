@@ -41,18 +41,13 @@ def write_jsonl(file_path, data):
     Parameters
     ----------
     filepath : str
-        Путь к выходному файлу.
+        Путь к выходному файлу
     data : list of dict
-        Данные для сохранения.
+        Данные для сохранения
 
     Returns
     -------
     None
-
-    Examples
-    --------
-    >>> idioms = [{"idiom_fr": "prendre une attitude", "best_translation": "занять позицию"}]
-    >>> write_jsonl("idioms.jsonl", idioms)
     """
 
     with open(file_path, "w", encoding="utf-8") as f:
@@ -71,12 +66,10 @@ limits = {"expressio": 3000, "wiktionary": 1500}
 def collect_idioms(selected_sources=AVAILABLE_SOURCES.keys(), limit_per_source=limits):
 
     """
-    Сбор идиом из нескольких источников.
+    Сбор идиом из нескольких источников
 
     Функция проходит по списку выбранных источников, применяет парсер каждого 
-    источника и собирает все найденные идиомы в один список. Ошибки при обработке 
-    отдельных источников перехватываются и выводятся, что позволяет продолжить 
-    сбор данных с остальных источников.
+    источника и собирает все найденные идиомы в один список
 
     Parameters
     ----------
@@ -86,12 +79,12 @@ def collect_idioms(selected_sources=AVAILABLE_SOURCES.keys(), limit_per_source=l
 
     limit_per_source : dict, default=limits
         Словарь, задающий максимальное количество идиом для сбора из каждого источника. 
-        Ключи словаря должны соответствовать названиям источников.
+        Ключи словаря должны соответствовать названиям источников
 
     Returns
     --------------------
     all_idioms : list
-        Список, содержащий все собранные идиомы из указанных источников.
+        Список, содержащий все собранные идиомы из указанных источников
     """
 
     all_idioms = []
@@ -111,17 +104,18 @@ def collect_idioms(selected_sources=AVAILABLE_SOURCES.keys(), limit_per_source=l
 def clean_idioms(idioms_list):
 
     """
-    Очищает список идиом: убирает дубликаты, чистит контекст, нормализует источники.
+    Очищает список идиом: убирает дубликаты, чистит идиомы 
+    и контекст, нормализует источники
 
     Parameters
     ----------
     idioms_list : list
-        Список словарей с ключами 'idiom', 'context', 'source'.
+        Список словарей с ключами 'idiom_fr', 'context', 'source'.
 
     Returns
     -------
     list
-        Список очищенных идиом.
+        Список очищенных идиом
     """
 
     cleaned_dict = {}
@@ -188,14 +182,14 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 def create_embeddings_batch(idioms_list, batch_size=50):
     
     """
-    Создаёт эмбеддинги для списка идиом с помощью SentenceTransformer.
+    Создаёт эмбеддинги для списка идиом с помощью SentenceTransformer
 
     Parameters
     ----------
     idioms_list : list
         Список строк (идиомы).
-    batch_size : int, optional
-        Размер батча при кодировании, по умолчанию 50.
+    batch_size : int, default=50
+        Размер батча при кодировании
 
     Returns
     -------

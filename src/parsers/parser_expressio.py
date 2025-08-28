@@ -13,17 +13,79 @@ UA_LIST = [
 ]
 
 def save_progress(data, filename="expressio_backup.json"):
+    """
+    Сохраняет текущий прогресс парсинга в JSON-файл.
+
+    Parameters
+    ----------
+    data : list
+        Данные (например, список словарей с идиомами), которые требуется сохранить.
+
+    filename : str, default="expressio_backup.json"
+        Имя файла, в который будет записан результат.
+
+    Notes
+    -----
+    Файл создаётся или перезаписывается. Используется для резервного
+    сохранения результатов при парсинге.
+    """
+
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
 def get_text_with_spaces(tag):
+
+    """
+    Извлекает текст из HTML-тега с удалением лишних пробелов.
+
+    Parameters
+    ----------
+    tag : bs4.element.Tag or None
+        HTML-элемент (например, заголовок или блок с примером).
+
+    Returns
+    -------
+    text : str
+        Текстовое содержимое тега, очищенное от лишних пробелов.
+        Пустая строка, если `tag` равен None.
+    """
+
     if not tag:
         return ""
     return " ".join(tag.stripped_strings)
 
 
 def parse(limit=None, sleep_time=1.5):
+
+    """
+    Сбор французских идиом с сайта Expressio.fr с помощью Playwright.
+
+    Функция автоматически прокручивает страницу, переходит по ссылкам
+    на идиомы, извлекает их текст и примеры контекста
+    Результаты cохраняются в список словарей
+
+    Parameters
+    ----------
+    limit : int, optional (default=None)
+        Максимальное количество идиом, которое нужно собрать.
+        Если None, парсинг продолжается до конца доступных страниц.
+
+    sleep_time : float, default=1.5
+        Время ожидания между повторами запросов 
+        и при ошибках соединения
+
+    Returns
+    -------
+    collected_idioms : list of dict
+        Список словарей с информацией об идиомах. Каждый элемент имеет вид:
+        {
+            "idiom": str,    
+            "context": str, 
+            "source": "espressio"
+        }
+    """
+
     collected_idioms = []
 
     with sync_playwright() as p:

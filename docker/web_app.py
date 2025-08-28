@@ -4,7 +4,7 @@ import torch
 
 @st.cache_resource
 def load_model():
-    model_name = "skrnkv/final_results"
+    model_name = "skrnkv/mt5_idioms_checkpoints_new"
     model = MT5ForConditionalGeneration.from_pretrained(model_name)
     tokenizer = MT5Tokenizer.from_pretrained(model_name)
     

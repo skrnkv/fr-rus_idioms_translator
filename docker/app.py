@@ -5,7 +5,7 @@ import torch
 
 app = FastAPI()
 
-model_name = "skrnkv/final_results"
+model_name = "skrnkv/mt5_idioms_checkpoints_new"
 model = MT5ForConditionalGeneration.from_pretrained(model_name)
 tokenizer = MT5Tokenizer.from_pretrained(model_name)
 device = "cuda" if torch.cuda.is_available() else "cpu"

@@ -78,9 +78,4 @@ streamlit run web_app.py
 
 ## Лицензия
 
-MIT License © [Ваше имя]
-
-## Контакты
-
-- Email: your_email@example.com  
-- GitHub: [USERNAME](https://github.com/USERNAME)
+MIT License © skrnkv
