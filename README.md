@@ -16,31 +16,14 @@
 
 ---
 
-## Структура проекта
-rus-fr_idioms_translator/
-├── data/ # датасеты (JSONL)
-    ├── expressio_backup.json
-    ├── idioms.jsonl
-    └── wiki_backup.json
-├── docker/ # Docker и web app для демонстрации
-    ├── expressio_backup.json
-    ├── idioms.jsonl
-    └── wiki_backup.json
-├── src/ # исходный код обучения и предобработки
-├── README.md
-└── requirements.txt
-
----
-
 ## Метрики модели
 
 | Модель                     | BLEU  | Perplexity |
 |----------------------------|-------|------------|
-| mT5 (моя модель)           | 0.05  | 25.12      |
-| Helsinki-NLP opus-mt-fr-en | 0.24  | -          |
+| mT5 (моя модель)           | 0.03  | 213.33     |
 
 
-Вывод: Если смотреть финальный график, то модель демонстрирует способность к обучению, но пока еще уступает уже обученным моделям.
+Вывод: Если смотреть финальный график, то модель демонстрирует способность к обучению, но пока еще уступает уже обученным моделям
 
 ## Возможные улучшения
 
@@ -53,27 +36,37 @@ rus-fr_idioms_translator/
 ## Установка
 
 1. Клонируем репозиторий:
+```
 git clone https://github.com/skrnkv/rus-fr_idioms_translator.git
 cd rus-fr_idioms_translator
+```
 
 2. Создаем виртуальное окружение
+```
 python -m venv venv
 source venv/bin/activate    # Linux/Mac
 venv\Scripts\activate       # Windows
+```
 
-3. Устанавливаем зависимости
+4. Устанавливаем зависимости
+```
 pip install --upgrade pip
 pip install -r requirements.txt
+```
 
 ## Установка Hugging Face
+```
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-tokenizer = AutoTokenizer.from_pretrained("skrnkv/final_results")
-model = AutoModelForSeq2SeqLM.from_pretrained("skrnkv/final_results")
+tokenizer = AutoTokenizer.from_pretrained("skrnkv/mt5_idioms_checkpoints_new")
+model = AutoModelForSeq2SeqLM.from_pretrained("skrnkv/mt5_idioms_checkpoints_new")
+```
 
 ## Запуск приложения
-streamlit run web_app.py
-
+```
+cd docker
+python3 -m streamlit run web_app.py
+```
 
 
 ## Лицензия
