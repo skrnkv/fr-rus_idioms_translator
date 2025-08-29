@@ -81,9 +81,8 @@ docker run -p 8501:8501 idioms-translator
 ```
 
 
-# Запуск приложения
+### Запуск приложения
 ```
-cd docker
 python3 -m streamlit run web_app.py
 ```
 
