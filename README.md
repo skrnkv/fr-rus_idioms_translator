@@ -48,7 +48,7 @@ source venv/bin/activate    # Linux/Mac
 venv\Scripts\activate       # Windows
 ```
 
-4. Устанавливаем зависимости
+3. Устанавливаем зависимости
 ```
 pip install --upgrade pip
 pip install -r requirements.txt
@@ -62,7 +62,26 @@ tokenizer = AutoTokenizer.from_pretrained("skrnkv/mt5_idioms_checkpoints_new")
 model = AutoModelForSeq2SeqLM.from_pretrained("skrnkv/mt5_idioms_checkpoints_new")
 ```
 
-## Запуск приложения
+## Установка FastApi
+
+1. Клонируем репозиторий:
+```
+git clone https://github.com/skrnkv/rus-fr_idioms_translator.git
+cd rus-fr_idioms_translator/docker
+```
+
+2. Собираем docker-образ
+```
+docker build -t idioms-translator
+```
+
+3. Запускаем
+```
+docker run -p 8501:8501 idioms-translator
+```
+
+
+# Запуск приложения
 ```
 cd docker
 python3 -m streamlit run web_app.py
